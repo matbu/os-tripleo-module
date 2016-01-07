@@ -30,7 +30,7 @@ class Provision(object):
             self.yum.yum_install(pkg)
 
     def _deploy_instack(self):
-        return self.shell._exec_cmd('instack-virt-setup')
+        return self.shell._exec_shell_cmd('su stack instack-virt-setup')
 
     def _get_instack_ip(self):
         return self.shell._exec_cmd("arp -n | grep virbr0 | awk '{print $5}")
