@@ -18,6 +18,7 @@ class Provision(object):
         self.com.set_repo(['http://trunk.rdoproject.org/centos7/delorean-deps.repo',])
         self._install_pkg(['epel-release', 'instack-undercloud'])
         self._deploy_instack()
+        return self._get_instack_ip()
 
     def _install_pkg(self, pkgs):
         for pkg in pkgs:
@@ -25,3 +26,6 @@ class Provision(object):
 
     def _deploy_instack(self):
         return shell._exec_cmd('instack-virt-setup')
+
+    def _get_instack_ip(self):
+        return shell._exec_cmd("arp -n | grep virbr0 | awk '{print $5}")
