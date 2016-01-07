@@ -12,7 +12,7 @@ class Undercloud(object):
         shell = ShellUtils()
         com = Common()
 
-    def provision(self):
+    def undercloud(self):
         self._install_pkg(['epel-release', 'yum-plugin-priorities', 'python-tripleoclient',])
         self.com.set_repo(['http://trunk.rdoproject.org/centos7/delorean-deps.repo',])
 
