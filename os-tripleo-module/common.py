@@ -3,6 +3,8 @@ import urllib
 
 class Common(object):
 
+    repo_path = "/etc/yum.repos.d/"
+
     def __init__(self):
         pass
 

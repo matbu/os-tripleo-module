@@ -3,13 +3,11 @@ from common import Common
 
 class Provision(object):
 
-    repo_path = "/etc/yum.repos.d/"
-
     def __init__(self, repolist):
         self.repolist = repolist
-        yum = YumUtils()
-        shell = ShellUtils()
-        com = Common()
+        self.yum = YumUtils()
+        self.shell = ShellUtils()
+        self.com = Common()
 
     def provision(self):
         # run instack
@@ -21,10 +19,10 @@ class Provision(object):
 
     def _install_pkg(self, pkgs):
         for pkg in pkgs:
-            yum.yum_install(pkg)
+            self.yum.yum_install(pkg)
 
     def _deploy_instack(self):
-        return shell._exec_cmd('instack-virt-setup')
+        return self.shell._exec_cmd('instack-virt-setup')
 
     def _get_instack_ip(self):
-        return shell._exec_cmd("arp -n | grep virbr0 | awk '{print $5}")
+        return self.shell._exec_cmd("arp -n | grep virbr0 | awk '{print $5}")

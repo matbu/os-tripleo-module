@@ -8,9 +8,9 @@ class Undercloud(object):
 
     def __init__(self, repolist):
         self.repolist = repolist
-        yum = YumUtils()
-        shell = ShellUtils()
-        com = Common()
+        self.yum = YumUtils()
+        self.shell = ShellUtils()
+        self.com = Common()
 
     def undercloud(self):
         self._install_pkg(['epel-release', 'yum-plugin-priorities', 'python-tripleoclient',])
@@ -18,7 +18,7 @@ class Undercloud(object):
 
     def _install_pkg(self, pkgs):
         for pkg in pkgs:
-            yum.yum_install(pkg)
+            self.yum.yum_install(pkg)
 
     def _deploy_undercloud(self):
-        return shell._exec_cmd('openstack undercloud install')
+        return self.shell._exec_cmd('openstack undercloud install')
