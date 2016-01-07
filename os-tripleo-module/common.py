@@ -15,5 +15,5 @@ class Common(object):
 
     def set_repo(self, repos):
         for repo in repos:
-            repo_name = repo.split('/')[len(repo.split('/'))-1]"
+            repo_name = repo.split('/')[len(repo.split('/'))-1]
             urllib.urlretrieve(repo, filename="%s%s" % (self.repo_path, repo_name))

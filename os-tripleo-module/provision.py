@@ -1,6 +1,5 @@
 from utils import YumUtils, ShellUtils
 from common import Common
-import libuser
 
 class Provision(object):
 
