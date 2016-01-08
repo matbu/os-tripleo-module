@@ -14,11 +14,6 @@ EXAMPLES = '''
 
 '''
 
-_os_keystone   = None
-_os_tenant_id  = None
-_os_network_id = None
-_inc = 0
-
 def _get_provision(module, kwargs):
     try:
         provision = Provision(repolist=kwargs.get('repo'))
@@ -38,14 +33,12 @@ def _is_instack(module):
     return _os_provision.is_instack()
 
 def main():
-
-    argument_spec = openstack_argument_spec()
-    argument_spec.update(dict(
+    argument_spec = (dict(
             repo                    = dict(Default=None),
             state                   = dict(default='present', choices=['absent', 'present']),
     ))
     module = AnsibleModule(argument_spec=argument_spec)
-
+    provision = _get_provision(module, module.params)
     if module.params['state'] == 'present':
         if _is_instack(module):
             module.exit_json(changed = False, result = "Success" )
