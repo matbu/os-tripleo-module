@@ -54,9 +54,10 @@ class ShellUtils(object):
 
     def _exec_shell_cmd(self, cmd):
         """ execute shell command """
-        shell = subprocess.Popen(cmd,
-                                    shell=True)
-        return shell.wait()
+        shell = subprocess.Popen(cmd,shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT)
+        return shell.communicate()[0]
 
     def _exec_cmd(self, cmd):
         """ exec command without shell """

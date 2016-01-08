@@ -25,6 +25,10 @@ class Provision(object):
         self._deploy_instack()
         return self._get_instack_ip()
 
+    def is_instack(self):
+        if self._get_instack_ip() != '':
+            return True
+
     def _install_pkg(self, pkgs):
         for pkg in pkgs:
             self.yum.yum_install(pkg)
@@ -33,4 +37,4 @@ class Provision(object):
         return self.shell._exec_shell_cmd('su stack instack-virt-setup')
 
     def _get_instack_ip(self):
-        return self.shell._exec_cmd("arp -n | grep virbr0 | awk '{print $5}")
+        return self.shell._exec_shell_cmd("arp -n | grep virbr0 | awk '{print $1}'")
