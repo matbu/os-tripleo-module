@@ -1,0 +1,15 @@
+---
+- name: Provision hosts 0
+  hosts: host0
+  gather_facts: no
+  tasks:
+    - name: provision hosts
+      os_tripleo_provision:
+        repo: ['http://trunk.rdoproject.org/centos7/delorean-deps.repo']
+
+
+# Thoughts: how to use python code remotly:
+# 1/ implement ssh connection into python module --> why not ? (like 3s deploy)
+# 2/ install python module on the remote host --> don't like the idea , ansible is agentless ..
+# 3/ do every thing into the ansible module --> code redundant / how module can talk to each other ?
+# http://docs.ansible.com/ansible/developing_api.html#detailed-api-example
