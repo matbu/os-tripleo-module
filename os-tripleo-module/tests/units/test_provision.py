@@ -35,7 +35,7 @@ def params_from_doc(func):
 
     return cfg[0]['os_tripleo_provision_test']
 
-class TestProvision(object):
+class test_provision(object):
     '''This class exercises the _network_args function of the
     os_server module.  For each test, we parse the YAML document
     contained in the docstring to retrieve the module parameters for the
