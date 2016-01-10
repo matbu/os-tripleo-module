@@ -6,7 +6,6 @@
     Author(s): Mathieu BULTEL
     Description : Deploy tools
 """
-import urllib
 
 DOCUMENTATION = '''
 ---
@@ -18,83 +17,6 @@ options:
 EXAMPLES = '''
 
 '''
-#import yum
-import subprocess
-
-class YumUtils(object):
-
-    yb = None
-
-    def __init__(self) :
-        pass
-
-    def yum_install(self, pkg):
-        """ install package with the given package """
-        for (package, matched_value) in self._yum_manage(pkg) :
-            if package.name == pkg :
-                self.yb.install(package)
-                self.yb.buildTransaction()
-                self.yb.processTransaction()
-
-    def yum_remove(self, pkg):
-        """ remove package """
-        for (package, matched_value) in self._yum_manage(pkg) :
-            if package.name == pkg :
-                self.yb.remove(package)
-                self.yb.buildTransaction()
-                self.yb.processTransaction()
-
-    def yum_update(self, pkg):
-        """ update package """
-        for (package, matched_value) in self._yum_manage(pkg) :
-            if package.name == pkg :
-                self.yb.update(package)
-                self.yb.buildTransaction()
-                self.yb.processTransaction()
-
-    def _yum_manage(self, pkg, list='name'):
-        """ manage yum packages """
-        self.yb = yum.YumBase()
-        searchlist=['name']
-        arg=[pkg]
-        return self.yb.searchGenerator(searchlist,arg)
-
-class ShellUtils(object):
-
-    def __init__(self):
-        pass
-
-    def _exec_shell_cmd(self, cmd):
-        """ execute shell command """
-        shell = subprocess.Popen(cmd,shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT)
-        return shell.communicate()[0]
-
-    def _exec_cmd(self, cmd):
-        """ exec command without shell """
-        process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
-        response = process.communicate()[0]
-        return response
-
-class Common(object):
-
-    repo_path = "/etc/yum.repos.d/"
-
-    def __init__(self):
-        pass
-
-    def set_user(self, user, pwd):
-        pass
-#        sudo useradd stack
-#        sudo passwd stack  # specify a password
-#        echo "stack ALL=(root) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/stack
-#        sudo chmod 0440 /etc/sudoers.d/stack
-
-    def set_repo(self, repos):
-        for repo in repos:
-            repo_name = repo.split('/')[len(repo.split('/'))-1]
-            urllib.urlretrieve(repo, filename="%s%s" % (self.repo_path, repo_name))
 
 class Provision(object):
 
@@ -166,5 +88,8 @@ def main():
 # this is magic, see lib/ansible/module.params['common.py
 from ansible.module_utils.basic import *
 from ansible.module_utils.openstack import *
+from library.utils.utils import YumUtils, ShellUtils
+from library.utils.common import Common
+
 if __name__ == '__main__':
     main()
