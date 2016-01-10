@@ -47,11 +47,13 @@ class test_provision(object):
         self.module.params = params_from_doc(method)
 
     @mock.patch.object(os_tripleo_provision_test, '_is_instack')
-    def test_is_instack_exist(self, mock_tripleo):
+    @mock.patch('os_tripleo_module.os_tripleo_provision_test.AnsibleModule')
+    def test_is_instack_exist(self, mock_tripleo, mock_module):
         '''
         - os_tripleo_provision_test:
             repo: ['http://rdo.repo.org']
         '''
-        mock_tripleo._is_instack.return_value = self.virthost.get_instack_ip()
-        instack_ip = os_tripleo_provision_test._is_instack(self.module)
-        self.assertEqual(mock_tripleo, instack_ip)
+        instance = mock_module.return_value
+        mock_tripleo._is_instack.return_value = '192.168.122.95'
+        os_tripleo_provision_test.main()
+        assert_equals(instance.exit_json.call_count, 0)
