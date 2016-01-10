@@ -7,14 +7,13 @@
     Description : Deploy tools
 """
 import mock
-import pytest
 import yaml
 
 class FakeVirtHost(object):
 
     instack_ip = '192.168.122.95'
 
-    def get_instack_ip()
+    def get_instack_ip():
         return self.instack_ip
 
     create_server = mock.MagicMock()

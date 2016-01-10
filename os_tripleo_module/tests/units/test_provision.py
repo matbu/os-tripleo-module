@@ -7,8 +7,8 @@
     Description : Deploy tools
 """
 
-from tests.units.fakes import FakeVirtHost
-import os_tripleo_provision_test
+from os_tripleo_module.tests.units.fakes import FakeVirtHost
+from os_tripleo_module import os_tripleo_provision_test
 
 class AnsibleFail(Exception):
     pass
