@@ -1,0 +1,10 @@
+---
+- name: Provision hosts 0
+  hosts: host0
+  gather_facts: no
+  tasks:
+    - name: provision hosts
+      os_tripleo_provision:
+        repo: ['http://trunk.rdoproject.org/centos7/delorean-deps.repo']
+
+# http://docs.ansible.com/ansible/developing_api.html#detailed-api-example
