@@ -84,13 +84,6 @@ class Common(object):
     def __init__(self):
         pass
 
-    def set_user(self, user, pwd):
-        pass
-#        sudo useradd stack
-#        sudo passwd stack  # specify a password
-#        echo "stack ALL=(root) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/stack
-#        sudo chmod 0440 /etc/sudoers.d/stack
-
     def set_repo(self, repos):
         for repo in repos:
             repo_name = repo.split('/')[len(repo.split('/'))-1]
@@ -99,7 +92,7 @@ class Common(object):
 
 class Provision(object):
 
-    def __init__(self, repolist=None):
+    def __init__(self, repolist=None, user='stack'):
         self.repolist = repolist
         self.yum = YumUtils()
         self.shell = ShellUtils()
@@ -107,7 +100,6 @@ class Provision(object):
 
     def provision(self):
         # run instack
-        self.com.set_user('stack', 'stack')
         self.com.set_repo(['http://trunk.rdoproject.org/centos7/delorean-deps.repo',])
         self._install_pkg(['epel-release', 'instack-undercloud'])
         self._deploy_instack()
@@ -164,12 +156,6 @@ def main():
         else:
             module.exit_json(changed = False, result = "Success")
 
-# this is magic, see lib/ansible/module.params['common.py
 from ansible.module_utils.basic import *
-from ansible.module_utils.openstack import *
-from ansible.modules.core.packaging.os import *
-#from library.utils.utils import YumUtils, ShellUtils
-#from library.utils.common import Common
-
 if __name__ == '__main__':
     main()

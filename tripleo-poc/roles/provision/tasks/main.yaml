@@ -1,0 +1,6 @@
+- name: add stack user
+  user: name=stack password=stack
+
+- name: provision host
+  os_tripleo_provision:
+    repo: ['http://trunk.rdoproject.org/centos7/delorean-deps.repo']

@@ -1,0 +1,6 @@
+- name: deploy overcloud
+  os_tripleo_overcloud:
+    state: present
+    libvirt-type: qemu
+    network-isolation: True
+    environment_file: ["network_environment.yaml"]

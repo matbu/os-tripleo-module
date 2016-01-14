@@ -1,0 +1,17 @@
+- name: install undercloud
+  os_tripleo_undercloud:
+    state: present
+    
+
+
+overcloud.yaml
+
+---
+- name: install overcloud
+  hosts: instack
+  tasks:
+name: deploy overcloud
+            os_tripleo_overcloud:
+              state: present
+              virt: qemu
+              deploy: templates
