@@ -1,7 +1,13 @@
+- name: add stack user
+  user:
+    name: 'stack'
+    password: 'stack'
+
 - name: install undercloud
   os_tripleo_undercloud:
     state: present
     
+
 
 
 overcloud.yaml

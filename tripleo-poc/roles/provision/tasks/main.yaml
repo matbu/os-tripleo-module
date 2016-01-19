@@ -1,5 +1,7 @@
 - name: add stack user
-  user: name=stack password=stack
+  user:
+    name: 'stack'
+    password: 'stack'
 
 - name: provision host
   os_tripleo_provision:

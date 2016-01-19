@@ -92,7 +92,8 @@ class Common(object):
 
 class Provision(object):
 
-    def __init__(self, repolist=None, user='stack'):
+    def __init__(self, user, repolist=None):
+        self.user = user
         self.repolist = repolist
         self.yum = YumUtils()
         self.shell = ShellUtils()
@@ -114,7 +115,9 @@ class Provision(object):
             self.yum.yum_install(pkg)
 
     def _deploy_instack(self):
-        return self.shell._exec_shell_cmd('su stack instack-virt-setup')
+        shell = Shell()
+        
+        return self.shell._exec_shell_cmd('su %s instack-virt-setup' % self.user)
 
     def _get_instack_ip(self):
         return self.shell._exec_shell_cmd("arp -n | grep virbr0 | awk '{print $1}'")
@@ -122,7 +125,7 @@ class Provision(object):
 
 def _get_provision(module, kwargs):
     try:
-        provision = Provision(repolist=kwargs.get('repo'))
+        provision = Provision(user=kwargs.get('user') ,repolist=kwargs.get('repo'))
     except Exception, e:
         module.fail_json(msg = "Error : %s" %e.message)
     return provision
@@ -135,15 +138,17 @@ def _provision(module, kwargs):
         module.fail_json(msg = "Error : %s" %e.message)
 
 def _is_instack(module):
-    provision = Provision()
+    provision = Provision('stack')
     return provision.is_instack()
 
 def main():
     argument_spec = (dict(
             repo                    = dict(Default=None),
+            stack_user                    = dict(Default='stack'),
             state                   = dict(default='present', choices=['absent', 'present']),
     ))
     module = AnsibleModule(argument_spec=argument_spec)
+
     if module.params['state'] == 'present':
         if _is_instack(module):
             module.exit_json(changed = False, result = "Success" )
@@ -157,5 +162,6 @@ def main():
             module.exit_json(changed = False, result = "Success")
 
 from ansible.module_utils.basic import *
+from ansible.module_utils.shell import *
 if __name__ == '__main__':
     main()

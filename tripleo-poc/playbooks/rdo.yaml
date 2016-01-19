@@ -1,12 +1,12 @@
 ---
 - name: Setup Environment
-  hosts: localhost
+  hosts: virthost
   gather_facts: no
   roles:
     - provision
 
 - name: Deploy Undercloud
-  hosts: localhost
+  hosts: undercloud
   gather_facts: no
   roles:
     - undercloud
